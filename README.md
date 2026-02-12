@@ -17,7 +17,7 @@
 Get the latest build for your platform below.
 
 ### 🍎 macOS (Apple Silicon)
-Optimized for M1, M2, M3, and M4 Macs.
+Optimized for M1, M2, M3, and M4 Chips.
 *   [**Download for macOS**](./dist/CopAndBandit/CopAndBandit)
 
 ### 🪟 Windows
