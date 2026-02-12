@@ -1,0 +1,5 @@
+theme: jekyll-theme-cayman
+title: Cop and Bandit
+description: A high-speed endless runner for Apple Silicon.
+show_downloads: true
+google_analytics:
