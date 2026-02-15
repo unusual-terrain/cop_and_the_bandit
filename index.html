@@ -198,7 +198,7 @@
                     <span id="page-info" class="page-info">Page <span id="page-num">1</span> of <span
                             id="page-count">-</span></span>
                     <button id="next-page" class="pdf-btn">Next →</button>
-                    <a href="assets/story_book.pdf" download class="pdf-btn download-btn">Download PDF</a>
+                    <a href="assets/story_book_compressed.pdf" download class="pdf-btn download-btn">Download PDF</a>
                 </div>
 
                 <div class="pdf-canvas-wrapper">
@@ -419,7 +419,7 @@
         document.getElementById('next-page').addEventListener('click', onNextPage);
 
         // Load the PDF
-        pdfjsLib.getDocument('assets/story_book.pdf').promise.then(function (pdfDoc_) {
+        pdfjsLib.getDocument('assets/story_book_compressed.pdf').promise.then(function (pdfDoc_) {
             pdfDoc = pdfDoc_;
             document.getElementById('page-count').textContent = pdfDoc.numPages;
 
