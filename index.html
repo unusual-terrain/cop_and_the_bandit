@@ -323,6 +323,14 @@
             </div>
         </div>
     </section>
+
+    <!-- Image Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -439,6 +447,50 @@
             console.error('Error loading PDF:', error);
             loadingDiv.innerHTML = '<p style="color: var(--accent-red);">Error loading story book. Please try downloading the PDF instead.</p>';
         });
+    </script>
+
+    <!-- Lightbox Script -->
+    <script>
+        // Get lightbox elements
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxClose = document.querySelector('.lightbox-close');
+
+        // Get all screenshot images
+        const screenshots = document.querySelectorAll('.screenshot-image');
+
+        // Add click event to each screenshot
+        screenshots.forEach(img => {
+            img.addEventListener('click', function () {
+                lightbox.classList.add('active');
+                lightboxImg.src = this.src;
+                lightboxCaption.textContent = this.alt;
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+
+        // Close lightbox when clicking the X
+        lightboxClose.addEventListener('click', closeLightbox);
+
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox with ESC key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
     </script>
 
 </body>
