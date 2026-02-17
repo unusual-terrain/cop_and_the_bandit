@@ -305,8 +305,8 @@
     <!-- Gallery Section -->
     <section id="gallery">
         <div class="container">
-            <h2>🎮 Game Screenshots</h2>
-            <p class="section-subtitle">Experience the high-speed action</p>
+            <h2>🎮 Game Gallery</h2>
+            <p class="section-subtitle">Experience the high-speed action through screenshots and videos</p>
 
             <div class="screenshots-grid">
                 <div class="screenshot-item">
@@ -321,14 +321,33 @@
                 <div class="screenshot-item">
                     <img src="assets/images/screenshot_4.jpg" alt="Cop and Bandit Gameplay 4" class="screenshot-image">
                 </div>
+                <!-- Video items - add your videos to assets/videos/ -->
+                <div class="screenshot-item video-item">
+                    <video class="screenshot-video" preload="metadata">
+                        <source src="assets/videos/gameplay_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-play-overlay">▶</div>
+                </div>
+                <!-- <div class="screenshot-item video-item">
+                    <video class="screenshot-video" preload="metadata">
+                        <source src="assets/videos/gameplay_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-play-overlay">▶</div>
+                </div> -->
             </div>
         </div>
     </section>
 
-    <!-- Image Lightbox Modal -->
+    <!-- Image/Video Lightbox Modal -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
+        <video class="lightbox-content" id="lightbox-video" controls>
+            <source id="lightbox-video-source" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
 
@@ -512,18 +531,48 @@
         // Get lightbox elements
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const lightboxVideoSource = document.getElementById('lightbox-video-source');
         const lightboxCaption = document.getElementById('lightbox-caption');
         const lightboxClose = document.querySelector('.lightbox-close');
 
         // Get all screenshot images
         const screenshots = document.querySelectorAll('.screenshot-image');
 
-        // Add click event to each screenshot
+        // Get all screenshot videos
+        const screenshotVideos = document.querySelectorAll('.screenshot-video');
+
+        // Add click event to each screenshot image
         screenshots.forEach(img => {
             img.addEventListener('click', function () {
                 lightbox.classList.add('active');
+                lightboxImg.style.display = 'block';
+                lightboxVideo.style.display = 'none';
                 lightboxImg.src = this.src;
                 lightboxCaption.textContent = this.alt;
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+
+        // Add click event to each video (and its container)
+        screenshotVideos.forEach(video => {
+            const videoItem = video.closest('.screenshot-item');
+
+            videoItem.addEventListener('click', function (e) {
+                e.stopPropagation();
+                lightbox.classList.add('active');
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
+
+                // Set video source
+                const videoSrc = video.querySelector('source').src;
+                lightboxVideoSource.src = videoSrc;
+                lightboxVideo.load();
+
+                // Auto-play video in lightbox
+                lightboxVideo.play();
+
+                lightboxCaption.textContent = 'Gameplay Video';
                 document.body.style.overflow = 'hidden'; // Prevent scrolling
             });
         });
@@ -531,7 +580,7 @@
         // Close lightbox when clicking the X
         lightboxClose.addEventListener('click', closeLightbox);
 
-        // Close lightbox when clicking outside the image
+        // Close lightbox when clicking outside the content
         lightbox.addEventListener('click', function (e) {
             if (e.target === lightbox) {
                 closeLightbox();
@@ -547,6 +596,13 @@
 
         function closeLightbox() {
             lightbox.classList.remove('active');
+
+            // Pause and reset video if it was playing
+            if (lightboxVideo.style.display === 'block') {
+                lightboxVideo.pause();
+                lightboxVideo.currentTime = 0;
+            }
+
             document.body.style.overflow = ''; // Re-enable scrolling
         }
     </script>
